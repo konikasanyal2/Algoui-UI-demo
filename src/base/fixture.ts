@@ -2,6 +2,8 @@ import BrowserstackService from "../browserstack/bstack.service";
 import * as base from "@playwright/test";
 import { expect } from "@playwright/test";
 import { isBstack } from "../utils/env";
+import { loginPage} from "../page/loginPage";
+import {signUpPage} from "../page/signUpPage";
 import { CommonFunctions } from "../page/common/funtions";
 import { CommonLocators } from "../page/common/locators";
 import * as BrowserStackLocal from "browserstack-local";
@@ -16,6 +18,8 @@ const BS_LOCAL_ARGS = {
   };
   export const Browserstack = new BrowserstackService();
 export type myPages = {
+  loginPage: loginPage;
+  signup : signUpPage;
     commonLoc: CommonLocators;
     commonfunctions: CommonFunctions;
    
@@ -47,6 +51,8 @@ const test = base.test.extend<myPages>({
           await use(page);
         }
       },
+  loginPage: async({page}, use) =>{await use(new loginPage(page))},
+  signup : async({page}, use) =>{await use(new signUpPage(page))},
 commonLoc: async ({ page }, use) => {
     await use(new CommonLocators(page));
   },
